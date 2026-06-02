@@ -2,16 +2,52 @@
   "name": "solidity-gas-slasher",
   "version": "0.1.0",
   "description": "Static analyzer for Solidity smart contracts that finds gas inefficiencies and suggests refactors. AST-based (no solc needed). CLI + SARIF/JSON/Markdown.",
-  "bin": { "gas-slasher": "src/cli.js" },
+  "bin": {
+    "gas-slasher": "src/cli.js"
+  },
   "main": "src/analyzer.js",
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "start": "node src/cli.js",
-    "test": "node test/test.js"
+    "test": "node --test",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{js,json,md,yml}\"",
+    "format:check": "prettier --check \"**/*.{js,json,md,yml}\""
   },
-  "keywords": ["solidity", "ethereum", "gas", "optimization", "static-analysis", "smart-contracts", "sarif", "evm"],
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "gas",
+    "optimization",
+    "static-analysis",
+    "smart-contracts",
+    "sarif",
+    "evm"
+  ],
   "author": "DuminAndrew",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DuminAndrew/solidity-gas-slasher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DuminAndrew/solidity-gas-slasher/issues"
+  },
+  "homepage": "https://github.com/DuminAndrew/solidity-gas-slasher#readme",
   "dependencies": {
     "@solidity-parser/parser": "^0.18.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0"
   }
 }

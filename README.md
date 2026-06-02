@@ -49,6 +49,7 @@ no project dependencies required** — so it drops into any repo or CI pipeline 
 <td width="33%" valign="top">
 
 ### 🌳 Zero-compile AST
+
 Parses contracts with `@solidity-parser/parser` (ANTLR, **tolerant mode**). No `solc`, no node
 imports of your contract, no build step — point it at a folder and go.
 
@@ -56,6 +57,7 @@ imports of your contract, no build step — point it at a folder and go.
 <td width="33%" valign="top">
 
 ### ⚡ Gas-savings hints
+
 Every finding ships a concrete refactor **and** an estimated saving (per-iteration, deploy-time, or
 runtime), so you know whether a fix is worth it.
 
@@ -63,6 +65,7 @@ runtime), so you know whether a fix is worth it.
 <td width="33%" valign="top">
 
 ### 🧩 Modular rules
+
 ESLint-style visitors — each rule is an isolated AST walker. One rule throwing never crashes the
 run, and adding a rule is a single function.
 
@@ -72,6 +75,7 @@ run, and adding a rule is a single function.
 <td width="33%" valign="top">
 
 ### 🚦 CI-ready gating
+
 `--fail-on low|medium|high` returns a non-zero exit code so a noisy diff fails the build before it
 ships.
 
@@ -79,6 +83,7 @@ ships.
 <td width="33%" valign="top">
 
 ### 📤 Four output formats
+
 **stylish** for humans, **JSON** for pipes, **SARIF 2.1.0** for GitHub code scanning, **Markdown**
 for PR comments and reports.
 
@@ -86,6 +91,7 @@ for PR comments and reports.
 <td width="33%" valign="top">
 
 ### 📂 Recursive scanning
+
 Point it at a file or a tree; it walks `.sol` files and auto-skips `node_modules`, `lib`,
 `artifacts`, `cache`, `out`, `build`.
 
@@ -100,14 +106,14 @@ Point it at a file or a tree; it walks `.sol` files and auto-skips `node_modules
 Six gas rules ship today. Severity drives the SARIF level (`high → error`, `medium → warning`,
 `low → note`) and the `--fail-on` gate.
 
-| Rule | What it catches | Severity | Saving (≈) |
-|------|-----------------|:--------:|------------|
-| `cache-array-length` | `.length` read inside a `for` condition (repeated `SLOAD` / `length`) | 🟠 medium | ~3–100 gas / iteration |
-| `increment-prefix-unchecked` | `i++` loop counters that could be `++i` inside `unchecked { }` | 🟡 low | ~5 gas (`++i`) + ~30–40 gas (`unchecked`) / iter |
-| `custom-errors` | `require(cond, "string")` that could be a custom `error` | 🟠 medium | string storage (deploy) + cheaper revert (runtime) |
-| `calldata-params` | `memory` reference params on `external` / `public` functions | 🟠 medium | avoids `calldata → memory` copy |
-| `uint-gt-zero` | `x > 0` on unsigned values that should be `x != 0` | 🟡 low | ~3 gas |
-| `constant-immutable` | literal-initialized state vars that could be `constant` / `immutable` | 🟡 low | `SLOAD` (2100 / 100) → ~0 |
+| Rule                         | What it catches                                                       | Severity  | Saving (≈)                                         |
+| ---------------------------- | --------------------------------------------------------------------- | :-------: | -------------------------------------------------- |
+| `cache-array-length`         | `.length` read inside a `for` condition (repeated `SLOAD` / `length`) | 🟠 medium | ~3–100 gas / iteration                             |
+| `increment-prefix-unchecked` | `i++` loop counters that could be `++i` inside `unchecked { }`        |  🟡 low   | ~5 gas (`++i`) + ~30–40 gas (`unchecked`) / iter   |
+| `custom-errors`              | `require(cond, "string")` that could be a custom `error`              | 🟠 medium | string storage (deploy) + cheaper revert (runtime) |
+| `calldata-params`            | `memory` reference params on `external` / `public` functions          | 🟠 medium | avoids `calldata → memory` copy                    |
+| `uint-gt-zero`               | `x > 0` on unsigned values that should be `x != 0`                    |  🟡 low   | ~3 gas                                             |
+| `constant-immutable`         | literal-initialized state vars that could be `constant` / `immutable` |  🟡 low   | `SLOAD` (2100 / 100) → ~0                          |
 
 > Gas figures are heuristic estimates. Confirm real numbers with a profiler
 > (`forge snapshot`, `eth-gas-reporter`) before optimizing hot paths.
@@ -173,12 +179,12 @@ npm test
 
 **Flags**
 
-| Flag | Values | Default | Purpose |
-|------|--------|---------|---------|
-| `-f`, `--format` | `stylish` · `json` · `sarif` · `md` | `stylish` | Output format |
-| `--fail-on` | `low` · `medium` · `high` | _off_ | Exit `2` when max severity ≥ threshold |
-| `-o`, `--output` | `<file>` | stdout | Write the report to a file |
-| `-h`, `--help` | — | — | Show usage |
+| Flag             | Values                              | Default   | Purpose                                |
+| ---------------- | ----------------------------------- | --------- | -------------------------------------- |
+| `-f`, `--format` | `stylish` · `json` · `sarif` · `md` | `stylish` | Output format                          |
+| `--fail-on`      | `low` · `medium` · `high`           | _off_     | Exit `2` when max severity ≥ threshold |
+| `-o`, `--output` | `<file>`                            | stdout    | Write the report to a file             |
+| `-h`, `--help`   | —                                   | —         | Show usage                             |
 
 **GitHub Action** — gate pull requests and upload findings to the Security tab:
 
